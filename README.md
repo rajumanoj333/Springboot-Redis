@@ -1,28 +1,120 @@
-**The Spring starters you mentioned in project:**
+# Spring Boot Redis API
 
--spring-boot-starter-web
--spring-boot-devtools
--spring-boot-starter-data-redis
--lombok
+Welcome to the **Spring Boot Redis API** project! This project demonstrates how to integrate **Redis** with **Spring Boot** to build a RESTful API that performs CRUD operations on user data. Redis is used as the data store, allowing fast data retrieval and storage. This application showcases best practices for interacting with Redis through Spring Boot.
 
-1. **ApiRedisApplication.java**:  
-   This is the main entry point of the Spring Boot application. It contains the `main()` method and is annotated with `@SpringBootApplication`, which enables component scanning and auto-configuration. You don’t need to write much in this file except for the application launch logic.
+## 🚀 Features
+- **CRUD Operations** for Users in Redis
+- Fast and Efficient **Redis Caching**
+- Clean separation of concerns with **DAO** and **Controller** patterns
+- Built-in **REST API** for handling user data
+- Easy-to-configure and extend using Spring Boot
 
-2. **Dao/UserDao.java**:  
-   The DAO (Data Access Object) pattern is used here to interact with the data source (in this case, Redis). This class should contain methods for interacting with the Redis database, such as saving, retrieving, updating, or deleting `User` objects.
+## 🛠️ Technologies Used
+- **Spring Boot** - Framework to build and deploy Java applications
+- **Redis** - In-memory data structure store used for fast data retrieval
+- **Spring Boot Starter Web** - To create a web application and expose APIs
+- **Spring Boot DevTools** - To speed up development with auto-reload capabilities
+- **Spring Boot Starter Data Redis** - To integrate Redis into Spring Data
+- **Lombok** - A Java library that reduces boilerplate code
 
-3. **config/RedisConfig.java**:  
-   This file holds configuration related to Redis, like creating and configuring the Redis connection factory, template, and other Redis-related beans. You will define beans like `RedisTemplate` or `RedisConnectionFactory` here to manage interactions with Redis.
+## 📂 Project Structure
+The project is structured into the following packages:
 
-4. **controllers/UserController.java**:  
-   This is a REST controller that handles HTTP requests related to `User` entities. It defines endpoints (usually annotated with `@RequestMapping` or `@GetMapping`/`@PostMapping`) for interacting with the `User` resource, like creating or fetching users from Redis. It acts as an interface for the user-facing application.
+1. **`ApiRedisApplication.java`**  
+   Main entry point with `@SpringBootApplication` annotation enabling component scanning and auto-configuration.
 
-5. **models/User.java**:  
-   This file contains the `User` model class, which represents the structure of a user object in the application. It may have fields like `id`, `name`, `email`, etc., and be annotated with `@Entity` (or similar annotations) to map it to a data structure in Redis. It also includes getters, setters, and any business logic for the user object.
+2. **`dao/UserDao.java`**  
+   Implements the DAO pattern to interact with Redis for User entity operations.
 
-In summary:
-- **ApiRedisApplication.java** is the entry point of the Spring Boot app.
-- **UserDao.java** handles data operations.
-- **RedisConfig.java** sets up Redis connection.
-- **UserController.java** manages HTTP requests related to users.
-- **User.java** is the entity representing a user.
+3. **`config/RedisConfig.java`**  
+   Configures Redis connection factory and templates.
+
+4. **`controllers/UserController.java`**  
+   REST controller handling HTTP requests for user operations.
+
+5. **`models/User.java`**  
+   Defines the User entity with fields and Redis mapping annotations.
+
+## Prerequisites
+- Redis server installed and running
+- Java 11+
+- Maven
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/spring-boot-redis-api.git
+cd spring-boot-redis-api
+```
+
+2. Start Redis server:
+```bash
+redis-server
+```
+
+3. Run the Spring Boot application:
+```bash
+mvn spring-boot:run
+```
+
+## API Endpoints
+
+Base URL: `http://localhost:8080`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/users` | Create a new user |
+| GET | `/users` | Fetch all users |
+| GET | `/users/{id}` | Fetch user by ID |
+| PUT | `/users/{id}` | Update user by ID |
+| DELETE | `/users/{id}` | Delete user by ID |
+
+### Request Body Format
+
+```json
+{
+  "id": "1",
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+```
+
+## Example Usage
+
+### Create User
+```bash
+curl -X POST http://localhost:8080/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": "1",
+    "name": "John Doe",
+    "email": "john@example.com"
+  }'
+```
+
+### Get All Users
+```bash
+curl http://localhost:8080/users
+```
+
+### Get User by ID
+```bash
+curl http://localhost:8080/users/1
+```
+
+### Update User
+```bash
+curl -X PUT http://localhost:8080/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": "1",
+    "name": "John Smith",
+    "email": "johnsmith@example.com"
+  }'
+```
+
+### Delete User
+```bash
+curl -X DELETE http://localhost:8080/users/1
+```
